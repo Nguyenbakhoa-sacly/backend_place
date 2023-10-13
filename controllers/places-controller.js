@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const { validationResult } = require('express-validator')
 const getCoordsForAddress = require('../util/location')
 const HttpError = require('../models/http-error')
+const Place = require('../models/place');
 let DUMMY_PLACES = [
   {
     id: 'p1',
@@ -55,8 +56,7 @@ const createPlace = async (req, res, next) => {
     )
   }
   // Lấy dữ liệu người dùng từ request body.
-  const { title, description, address, creatorId
-  } = req.body;
+  const { title, description, address, creatorId } = req.body;
 
   let coordinates;
   try {
@@ -65,15 +65,23 @@ const createPlace = async (req, res, next) => {
     next(e)
   }
 
-  const createPlace = {
-    id: uuidv4(),
+  const createPlace = new Place({
     title,
     description,
-    location: coordinates,
     address,
+    location: coordinates,
+    image: 'https://cf.shopee.vn/file/93cb74f9521e03a605128d4df7addc9c',
     creatorId
+  });
+  try {
+    await createPlace.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Creating place failed, please try again.",
+      500);
+    return next(error);
   }
-  DUMMY_PLACES.push(createPlace);
+
   res.status(201).json({ place: createPlace })
 };
 

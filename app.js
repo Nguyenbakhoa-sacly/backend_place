@@ -3,6 +3,8 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 
+const mongoose = require('mongoose');
+
 const placesRoutes = require('./routes/places-routes')
 const usersRoutes = require('./routes/users-routers')
 
@@ -36,7 +38,16 @@ app.use((err, req, res, next) => {
     .json({ message: err.message || 'An unknown error occurred' })
 })
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+mongoose
+  .connect('mongodb+srv://khoab2306:nguyenbakhoa@cluster0.5afik6h.mongodb.net/places?retryWrites=true&w=majority&appName=AtlasApp')
+  .then(
+    () => {
+      app.listen(port, hostname, () => {
+        console.log(`Server running at http://${hostname}:${port}/`);
+      });
+    }
+  )
+  .catch(err => console.log(err));
+
+
 
