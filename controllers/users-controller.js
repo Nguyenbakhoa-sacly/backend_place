@@ -1,20 +1,9 @@
 
-const { v4: uuidv4 } = require('uuid');
 const { validationResult } = require('express-validator')
 const HttpError = require('../models/http-error')
 const User = require('../models/user');
-const { response } = require('express');
-let DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Khoa nguyen',
-    email: 'test@example.com',
-    password: 'khoa12345'
-  }
-]
 
 const getUsers = async (req, res, next) => {
-
   let users;
   try {
     //loai tru password
@@ -33,7 +22,7 @@ const signup = async (req, res, next) => {
       new HttpError('Invalid inputs passed, please check your data.', 422)
     )
   }
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
   let existingUser;
   try {
     //kiem tra email da ton tai hay chua
@@ -53,7 +42,7 @@ const signup = async (req, res, next) => {
     email,
     image: 'https://vn-live-01.slatic.net/p/aef9bebb6093265c86dc34311f507a3e.jpg',
     password,
-    places
+    places: []
   });
 
   try {
@@ -83,7 +72,6 @@ const login = async (req, res, next) => {
   }
 
   res.json({ message: 'Logged in successfully' })
-
 }
 exports.getUsers = getUsers;
 exports.signup = signup;
