@@ -93,6 +93,7 @@ const createPlace = async (req, res, next) => {
     image: 'https://cf.shopee.vn/file/93cb74f9521e03a605128d4df7addc9c',
     creatorId
   });
+
   try {
     await createPlace.save();
   } catch (err) {
@@ -109,7 +110,8 @@ const updatePlaceById = async (req, res, next) => {
 
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    throw new HttpError('Invalid inputs passed, please check your data.', 422)
+    return next(
+      new HttpError('Invalid inputs passed, please check your data.', 422))
   }
   const { title, description } = req.body
   const placeId = req.params.pid;
