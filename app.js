@@ -1,6 +1,6 @@
 
 const express = require('express');
-
+const cors = require("cors");
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
@@ -11,6 +11,7 @@ const usersRoutes = require('./routes/users-routers')
 const HttpError = require('./models/http-error')
 
 const app = express();
+app.use(cors());
 const hostname = '127.0.0.1';
 const port = 3000;
 
@@ -18,6 +19,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Sử dụng middleware bodyParser.json() để parse dữ liệu JSON trong request body.
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type,Accept, Authorization')
+  res.setHeader('Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE');
+  next();
+})
 
 app.use('/api/places', placesRoutes)
 app.use('/api/users', usersRoutes)

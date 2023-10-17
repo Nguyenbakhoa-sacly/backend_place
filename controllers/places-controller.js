@@ -1,5 +1,4 @@
 
-const { v4: uuidv4 } = require('uuid');
 const { validationResult } = require('express-validator')
 const mongoose = require('mongoose');
 const getCoordsForAddress = require('../util/location')
@@ -52,6 +51,7 @@ const getPlacesByUserId = async (req, res, next) => {
 
 const createPlace = async (req, res, next) => {
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     return next(
       new HttpError('Invalid inputs passed, please check your data.', 422)

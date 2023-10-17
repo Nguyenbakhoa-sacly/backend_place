@@ -40,7 +40,7 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: 'https://vn-live-01.slatic.net/p/aef9bebb6093265c86dc34311f507a3e.jpg',
+    image: 'https://kenh14cdn.com/thumb_w/660/2018/2/24/2-1519411445161838536977.jpg',
     password,
     places: []
   });
@@ -71,7 +71,10 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ message: 'Logged in successfully' })
+  res.json({
+    message: 'Logged in successfully',
+    users: existingUser.toObject({ getters: true })
+  })
 }
 exports.getUsers = getUsers;
 exports.signup = signup;
