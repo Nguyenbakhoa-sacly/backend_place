@@ -72,7 +72,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
-    image: 'https://cf.shopee.vn/file/93cb74f9521e03a605128d4df7addc9c',
+    image: req.file.path,
     creatorId
   });
 
