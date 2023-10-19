@@ -40,7 +40,7 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: 'https://kenh14cdn.com/thumb_w/660/2018/2/24/2-1519411445161838536977.jpg',
+    image: req.file.path,
     password,
     places: []
   });

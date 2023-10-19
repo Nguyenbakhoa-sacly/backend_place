@@ -1,13 +1,12 @@
 
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require('body-parser');
-
 const mongoose = require('mongoose');
-
 const placesRoutes = require('./routes/places-routes')
 const usersRoutes = require('./routes/users-routers')
-
 const HttpError = require('./models/http-error')
 
 const app = express();
@@ -15,10 +14,12 @@ app.use(cors());
 const hostname = '127.0.0.1';
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 // Sử dụng middleware bodyParser.json() để parse dữ liệu JSON trong request body.
 app.use(bodyParser.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,7 +37,14 @@ app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
   throw error;
 })
+
 app.use((err, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, err => {
+      console.log(err);
+    })
+  }
+
   // Kiểm tra xem tiêu đề phản hồi đã được gửi chưa
   if (res.headerSent) {
     // Nếu đã gửi, thì chỉ cần chuyển lỗi cho hàm middleware tiếp theo
