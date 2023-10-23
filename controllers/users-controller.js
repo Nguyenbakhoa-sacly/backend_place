@@ -26,7 +26,9 @@ const signup = async (req, res, next) => {
       new HttpError('Invalid inputs passed, please check your data.', 422)
     )
   }
+
   const { name, email, password } = req.body;
+
   let existingUser;
   try {
     //kiem tra email da ton tai hay chua
@@ -113,8 +115,8 @@ const login = async (req, res, next) => {
   try {
     // so sánh mất khẩu chuẩn với mất khẩu đã được mã hóa
     // gán kết quả với gia tri boolean cho isValidPassword
-    isValidPassword =
-      await bcrypt.compare(password, existingUser.password)
+    isValidPassword = await bcrypt.compare(
+      password, existingUser.password)
   } catch (e) {
     const error = new HttpError(
       'could not log in, please check your credentials and try again', 500);
