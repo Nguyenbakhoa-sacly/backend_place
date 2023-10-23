@@ -106,7 +106,7 @@ const login = async (req, res, next) => {
 
   if (!existingUser) {
     const error = new HttpError(
-      'Invalid credentials, could bot log you in.', 401);
+      'Invalid credentials, could bot log you in.', 403);
     return next(error);
   }
 
