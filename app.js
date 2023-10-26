@@ -5,14 +5,17 @@ const express = require('express');
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const placesRoutes = require('./routes/places-routes')
 const usersRoutes = require('./routes/users-routers')
 const HttpError = require('./models/http-error')
 
 const app = express();
 app.use(cors());
-const hostname = '127.0.0.1';
-const port = 3000;
+
+dotenv.config();
+const hostname = `${process.env.HOST_NAME}`;
+const port = process.env.PORT || 3001;
 
 // app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -57,7 +60,7 @@ app.use((err, req, res, next) => {
 })
 
 mongoose
-  .connect('mongodb+srv://khoab2306:nguyenbakhoa@cluster0.5afik6h.mongodb.net/places?retryWrites=true&w=majority&appName=AtlasApp')
+  .connect(`${process.env.MONGO_DB}`)
   .then(
     () => {
       app.listen(port, hostname, () => {
