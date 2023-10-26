@@ -59,7 +59,7 @@ const createPlace = async (req, res, next) => {
     )
   }
   // Lấy dữ liệu người dùng từ request body.
-  const { title, description, address, creatorId } = req.body;
+  const { title, description, address } = req.body;
 
   let coordinates;
   try {
@@ -74,13 +74,13 @@ const createPlace = async (req, res, next) => {
     address,
     location: coordinates,
     image: req.file.path,
-    creatorId
+    creatorId: req.userData.userId
   });
 
   let user;
   try {
     //kiem tra id nguoi tao co ton tai hay khong
-    user = await User.findById(creatorId);
+    user = await User.findById(req.userData.userId);
   } catch (e) {
     return next(
       new HttpError('Creating place failed, please try again.', 500)
