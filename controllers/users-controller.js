@@ -150,6 +150,8 @@ const login = async (req, res, next) => {
     token: token
   })
 }
+
+
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;

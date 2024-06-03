@@ -17,7 +17,7 @@ dotenv.config();
 const hostname = `${process.env.HOST_NAME}`;
 const port = process.env.PORT || 3001;
 
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Sử dụng middleware bodyParser.json() để parse dữ liệu JSON trong request body.
 app.use(bodyParser.json());
